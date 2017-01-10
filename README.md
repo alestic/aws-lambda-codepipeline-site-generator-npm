@@ -24,9 +24,10 @@ commands:
     if [ -f yarn.lock ]; then
         yarn
         yarn run build
-    else:
+    else
         npm install
         npm run build
+    fi
     cp -a SOURCEDIR/build SITEDIR/
 
 where SOURCEDIR contains the content of the CodeCommit Git repository,
