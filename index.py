@@ -113,4 +113,4 @@ def generate_static_site(source_dir, site_dir, user_parameters):
     else:
         run_command(["npm", "install"])
         run_command(["npm", "run", "build"])
-    run_command(["cp", "-a", source_dir + "/build/", site_dir + "/"])
+    run_command(["cp", "-a", source_dir + "/build/.", site_dir + "/"])
