@@ -28,7 +28,7 @@ commands:
         npm install
         npm run build
     fi
-    cp -a SOURCEDIR/build SITEDIR/
+    cp -a SOURCEDIR/build/ SITEDIR/
 
 where SOURCEDIR contains the content of the CodeCommit Git repository,
 and SITEDIR is the resulting content that will be sync'd to the S3
