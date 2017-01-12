@@ -110,14 +110,16 @@ def run_command(command):
 def generate_static_site(source_dir, site_dir, user_parameters):
     # Run npm as a static site generator
     taskdir = os.getcwd()
+    yarn_cache_dir = tempfile.mkdtemp()
     try:
         os.chdir(source_dir)
         if os.path.isfile("yarn.lock"):
-            run_command(["yarn"])
-            run_command(["yarn", "run", "build"])
+            run_command(["yarn", "--cache-folder", yarn_cache_dir])
+            run_command(["yarn", "--cache-folder", yarn_cache_dir, "run", "build"])
         else:
             run_command(["npm", "install"])
             run_command(["npm", "run", "build"])
         run_command(["cp", "-a", source_dir + "/build/.", site_dir + "/"])
     finally:
         os.chdir(taskdir)
+        shutil.rmtree(yarn_cache_dir)
