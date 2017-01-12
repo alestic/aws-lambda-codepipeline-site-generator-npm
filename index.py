@@ -110,7 +110,7 @@ def run_command(command):
 def generate_static_site(source_dir, site_dir, user_parameters):
     # Run npm as a static site generator
     # yarn can't run with read-only HOME directory
-    prev_home_dir = os.environ["HOME"]
+    prev_home_dir = os.getenv("HOME")
     tmp_home_dir = tempfile.mkdtemp()
     taskdir = os.getcwd()
     try:
@@ -125,5 +125,8 @@ def generate_static_site(source_dir, site_dir, user_parameters):
         run_command(["cp", "-a", source_dir + "/build/.", site_dir + "/"])
     finally:
         os.chdir(taskdir)
-        os.environ["HOME"] = prev_home_dir
+        if prev_home_dir is None:
+            del os.environ["HOME"]
+        else:
+            os.environ["HOME"] = prev_home_dir
         shutil.rmtree(tmp_home_dir)
