@@ -7,6 +7,8 @@
 # For example:
 # ./build-upload-aws-lambda-function run.alestic.com lambda/aws-lambda-site-generator-npm.zip
 #
+# NOTE: Must be run on Amazon Linux
+#
 
 s3bucket=${1:?Specify target S3 bucket name}
 s3key=${2:?Specify target S3 key}
@@ -27,7 +29,7 @@ zip -r9 $zipfile index.py
   cd node-latest-install
   curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
   ./configure --prefix=../node
-  make -j8 install
+  make -j4 install
   cd ../node
   PATH=$(pwd)/bin:$PATH
   cd lib
