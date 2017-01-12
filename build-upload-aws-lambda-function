@@ -17,13 +17,26 @@ zipfile=$tmpdir/lambda.zip
 
 zip -r9 $zipfile index.py
 
-# Install npm and yarn
+# Install new node, npm, yarn
+# https://gist.github.com/isaacs/579814
 (
  cd $tmpdir
- npm install npm yarn
- zip -r9 $zipfile node_modules
+ mkdir node
+ mkdir node-latest-install
+ (
+  cd node-latest-install
+  curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
+  ./configure --prefix=../node
+  make -j4 install
+  cd ../node
+  PATH=$(pwd)/bin:$PATH
+  cd lib
+  npm install yarn
+ )
+ zip -r9y $zipfile node
 )
 
+# Upload ZIP file to S3
 aws s3 cp --acl=public-read $zipfile $target
 
 # Clean up

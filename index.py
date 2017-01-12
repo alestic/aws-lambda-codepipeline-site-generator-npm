@@ -21,7 +21,7 @@ import subprocess
 import traceback
 import os.path
 
-os.environ["PATH"] += os.pathsep + os.environ["LAMBDA_TASK_ROOT"] + "/node_modules/.bin"
+os.environ["PATH"] = os.environ["LAMBDA_TASK_ROOT"] + "/node/bin" + os.pathsep + os.environ["PATH"]
 
 code_pipeline = boto3.client('codepipeline')
 
