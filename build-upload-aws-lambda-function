@@ -21,6 +21,7 @@ zip -r9 $zipfile index.py
 (
  cd $tmpdir
  npm install npm yarn
+ zip -r9 $zipfile node_modules
 )
 
 aws s3 cp --acl=public-read $zipfile $target
