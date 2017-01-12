@@ -29,7 +29,7 @@ zip -r9 $zipfile index.py
   cd node-latest-install
   curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
   ./configure --prefix=../node
-  make -j4 install
+  make -j8 install
   cd ../node
   PATH=$(pwd)/bin:$PATH
   cd lib
