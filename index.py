@@ -21,6 +21,8 @@ import subprocess
 import traceback
 import os.path
 
+os.environ["PATH"] += os.pathsep + os.environ["LAMBDA_TASK_ROOT"] + "/node_modules/.bin"
+
 code_pipeline = boto3.client('codepipeline')
 
 def setup(event):
@@ -107,10 +109,15 @@ def run_command(command):
 
 def generate_static_site(source_dir, site_dir, user_parameters):
     # Run npm as a static site generator
-    if os.path.isfile("yarn.lock"):
-        run_command(["yarn"])
-        run_command(["yarn", "run", "build"])
-    else:
-        run_command(["npm", "install"])
-        run_command(["npm", "run", "build"])
-    run_command(["cp", "-a", source_dir + "/build/.", site_dir + "/"])
+    taskdir = os.getcwd()
+    try:
+        os.chdir(source_dir)
+        if os.path.isfile("yarn.lock"):
+            run_command(["yarn"])
+            run_command(["yarn", "run", "build"])
+        else:
+            run_command(["npm", "install"])
+            run_command(["npm", "run", "build"])
+        run_command(["cp", "-a", source_dir + "/build/.", site_dir + "/"])
+    finally:
+        os.chdir(taskdir)
