@@ -28,11 +28,9 @@ commands:
         npm install
         npm run build
     fi
-    cp -a SOURCEDIR/build/. SITEDIR/
 
-where SOURCEDIR contains the content of the CodeCommit Git repository,
-and SITEDIR is the resulting content that will be sync'd to the S3
-bucket serving the static website.
+The resulting content should be in the "build" subdirectory as that
+will be be sync'd to the S3 bucket serving the static website.
 
 When passing parameters to the AWS Git-backed static website
 CloudFormation template, specify:
